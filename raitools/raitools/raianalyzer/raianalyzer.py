@@ -67,7 +67,8 @@ class RAIAnalyzer(object):
         self._explainer_manager = ExplainerManager(model, train, test,
                                                    target_column,
                                                    self._classes)
-        self._fairness_manager = FairnessManager()
+        self._fairness_manager = FairnessManager(model, train, test,
+                                                   target_column)
         self._managers = [self._causal_manager,
                           self._counterfactual_manager,
                           self._error_analysis_manager,
