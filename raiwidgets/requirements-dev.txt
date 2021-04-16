@@ -17,7 +17,7 @@ requirements-parser==0.2.0
 
 wheel
 
-fairlearn==0.6.0
+fairlearn==0.6.1
 
 # Required for notebook tests
 nbformat
