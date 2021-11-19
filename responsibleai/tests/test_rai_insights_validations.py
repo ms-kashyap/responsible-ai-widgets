@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 
 import pandas as pd
 import pytest
+import numpy as np
 
 from responsibleai.exceptions import UserConfigValidationException
 from responsibleai import RAIInsights
@@ -311,6 +312,16 @@ class TestRAIInsightsValidations:
 
         assert 'The train labels and distinct values in target ' + \
             '(test data) do not match' in str(ucve.value)
+        
+        rai = RAIInsights(
+            model=model,
+            train=X_train,
+            test=X_test,
+            target_column='target',
+            task_type='classification')
+        # validate classes are always sorted
+        classes = rai._classes
+        np.all(classes[:-1] <= classes[1:])
 
 
 class TestCausalUserConfigValidations:
