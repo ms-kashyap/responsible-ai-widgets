@@ -158,13 +158,13 @@ class DataBalanceManager(BaseManager):
             target_column=self._target_column,
             backend=self._backend,
         )
-        self.set_data_balance_measures(
+        self._set_data_balance_measures(
             feature_balance_measures=feat_measures,
             distribution_balance_measures=dist_measures,
             aggregate_balance_measures=agg_measures,
         )
 
-    def set_data_balance_measures(
+    def _set_data_balance_measures(
         self,
         feature_balance_measures: pd.DataFrame,
         distribution_balance_measures: pd.DataFrame,

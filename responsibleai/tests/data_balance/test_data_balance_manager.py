@@ -225,7 +225,7 @@ class TestDataBalanceManager:
         manager = DataBalanceManager(target_column=None, train=None, test=None)
 
         assert manager._data_balance_measures is None
-        manager.set_data_balance_measures(
+        manager._set_data_balance_measures(
             feature_balance_measures=feature_balance_measures,
             distribution_balance_measures=distribution_balance_measures,
             aggregate_balance_measures=aggregate_balance_measures,
