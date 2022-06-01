@@ -11,7 +11,7 @@ import {
   IModelAssessmentContext
 } from "@responsible-ai/core-ui";
 import { CounterfactualsTab } from "@responsible-ai/counterfactuals";
-import { DatasetExplorerTab } from "@responsible-ai/dataset-explorer";
+import { DataExplorerParentTab } from "@responsible-ai/dataset-explorer";
 import {
   ErrorAnalysisOptions,
   ErrorAnalysisViewTab,
@@ -196,7 +196,7 @@ export class TabsView extends React.PureComponent<
                       {localization.ModelAssessment.ComponentNames.DataExplorer}
                     </Text>
                   </div>
-                  <DatasetExplorerTab />
+                  <DataExplorerParentTab />
                 </>
               )}
               {t.key === GlobalTabKeys.FeatureImportancesTab &&

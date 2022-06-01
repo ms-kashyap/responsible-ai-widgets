@@ -1295,6 +1295,7 @@
       "CausalAnalysis": "Causal analysis",
       "Counterfactuals": "Counterfactuals",
       "DataExplorer": "Data explorer",
+      "DataBalance": "Data balance",
       "ErrorAnalysis": "Error analysis",
       "Fairness": "Fairness",
       "FeatureImportances": "Feature importances",
@@ -1311,6 +1312,76 @@
         "Title": "Delete {0}?"
       },
       "Title": "Dashboard configuration"
+    },
+    "DataBalance": {
+      "AggregateBalanceMeasures": {
+        "Name": "Aggregate Balance Measures",
+        "Measures": {
+          "AtkinsonIndex": "Atkinson Index",
+          "TheilLIndex": "Theil Index (L)",
+          "TheilTIndex": "Theil Index (T)"
+        }
+      },
+      "DistributionBalanceMeasures": {
+        "Name": "Distribution Balance Measures",
+        "Measures": {
+          "ChiSquarePValue": "Chi-Square P-Value",
+          "ChiSquareStatistic": "Chi-Square (χ2) Statistic",
+          "InfiniteNormDistance": "Infinite Norm Distance",
+          "JSDistance": "Jensen–Shannon Distance",
+          "KLDivergence": "Kullback–Leibler Divergence",
+          "TotalVariationDistance": "Total Variation Distance",
+          "WassersteinDistance": "Wasserstein Distance"
+        }
+      },
+      "FeatureBalanceMeasures": {
+        "Callout": {
+          "Title": "What are feature balance measures?",
+          "Description": "Feature Balance Measures allow us to see whether each combination of sensitive feature is receiving the positive outcome (true prediction) at balanced probability.",
+          "LearnMore": "Learn more"
+        },
+        "Chart": {
+          "Axes": {
+            "ClassA": "Class A",
+            "ClassB": "Class B"
+          },
+          "Tooltip": {
+            "And": "and",
+            "ValueDescription1": "have a",
+            "ValueDescription2": "of"
+          }
+        },
+        "Description1": "Comparing ",
+        "Description2": " on all classes of ",
+        "Name": "Feature Balance Measures",
+        "FeaturePicker": "Feature",
+        "MeasurePicker": "Measure",
+        "Measures": {
+          "StatisticalParity": {
+            "Name": "Statistical Parity",
+            "Description": "measures how much one class receives the positive outcome compared to the other class. As close to 0 means both classes receive the positive outcome equally. A positive value means the first class sees the positive label more than the second class. A negative value means the opposite."
+          },
+          "PointwiseMutualInformation": {
+            "Name": "Pointwise Mutual Information",
+            "Description": "of a pair of classes quantifies the discrepancy between the probability of their coincidence given their joint distribution and their individual distributions (assuming independence)."
+          },
+          "SorensenDiceCoefficient": {
+            "Name": "Sørensen-Dice coefficient",
+            "Description": "TODO"
+          },
+          "JaccardIndex": { "Name": "Jaccard Index", "Description": "TODO" },
+          "KendallRankCorrelation": {
+            "Name": "Kendall Rank Correlation",
+            "Description": "TODO"
+          },
+          "LogLikelihoodRatio": {
+            "Name": "Log-Likelihood Ratio",
+            "Description": "TODO"
+          },
+          "TTest": { "Name": "t-test", "Description": "TODO" }
+        }
+      },
+      "MeasuresNotComputed": "This tab requires the dataset to contain already computed data balance measures."
     },
     "FeatureImportances": {
       "CorrectPredictions": "Correct predictions",
