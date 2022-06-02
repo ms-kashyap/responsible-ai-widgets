@@ -16,7 +16,11 @@ export function getFeatureBalanceMeasuresChart(
   selectedMeasure: string
 ): IHighchartsConfig {
   const measureInfo = ApprovedFeatureBalanceMeasures.get(selectedMeasure);
-  if (measureInfo === undefined) {
+  if (
+    featureBalanceMeasures === undefined ||
+    featureBalanceMeasures.length === 0 ||
+    measureInfo === undefined
+  ) {
     return {};
   }
 

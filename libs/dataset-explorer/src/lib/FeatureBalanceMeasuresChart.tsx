@@ -90,7 +90,7 @@ export class FeatureBalanceMeasuresChart extends React.PureComponent<
                   href="https://microsoft.github.io/SynapseML/docs/features/responsible_ai/Data%20Balance%20Analysis/#feature-balance-measures"
                   target="_blank"
                 >
-                  {measuresLocalization.Callout.LearnMore}
+                  {localization.ModelAssessment.DataBalance.LearnMore}
                 </Link>
               </LabelWithCallout>
             </Stack.Item>

@@ -1323,22 +1323,33 @@
         }
       },
       "DistributionBalanceMeasures": {
-        "Name": "Distribution Balance Measures",
+        "Callout": {
+          "Title": "What are distribution balance measures?",
+          "Description": "Distribution balance measures allow us to compare our data with a reference distribution (currently only uniform distribution is supported as a reference distribution). They are calculated per sensitive column and do not depend on the label column."
+        },
+        "Chart": {
+          "Axes": {
+            "DistributionMeasure": "Distribution Measure",
+            "MeasureValue": "Measure Value"
+          },
+          "Title1": "Comparing",
+          "Title2": "with the Uniform Distribution"
+        },
         "Measures": {
           "ChiSquarePValue": "Chi-Square P-Value",
           "ChiSquareStatistic": "Chi-Square (χ2) Statistic",
           "InfiniteNormDistance": "Infinite Norm Distance",
-          "JSDistance": "Jensen–Shannon Distance",
-          "KLDivergence": "Kullback–Leibler Divergence",
+          "JSDistance": "Jensen-Shannon Distance",
+          "KLDivergence": "Kullback-Leibler Divergence",
           "TotalVariationDistance": "Total Variation Distance",
           "WassersteinDistance": "Wasserstein Distance"
-        }
+        },
+        "Name": "Distribution Balance Measures"
       },
       "FeatureBalanceMeasures": {
         "Callout": {
           "Title": "What are feature balance measures?",
-          "Description": "Feature Balance Measures allow us to see whether each combination of sensitive feature is receiving the positive outcome (true prediction) at balanced probability.",
-          "LearnMore": "Learn more"
+          "Description": "Feature balance measures allow us to see whether each combination of sensitive feature is receiving the positive outcome (true prediction) at balanced probability."
         },
         "Chart": {
           "Axes": {
@@ -1381,6 +1392,7 @@
           "TTest": { "Name": "t-test", "Description": "TODO" }
         }
       },
+      "LearnMore": "Learn more",
       "MeasuresNotComputed": "This tab requires the dataset to contain already computed data balance measures."
     },
     "FeatureImportances": {
