@@ -3,7 +3,7 @@
 
 import {
   BasicHighChart,
-  IDistributionBalanceMeasure,
+  IDistributionBalanceMeasures,
   LabelWithCallout
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
@@ -14,8 +14,7 @@ import { dataBalanceTabStyles } from "./DataBalanceTab.styles";
 import { getDistributionBalanceMeasuresChart } from "./getDistributionBalanceMeasuresChart";
 
 export interface IDistributionBalanceMeasureProps {
-  distributionBalanceMeasures: IDistributionBalanceMeasure[];
-  datasetName?: string;
+  distributionBalanceMeasures: IDistributionBalanceMeasures;
 }
 
 export class DistributionBalanceMeasuresChart extends React.PureComponent<IDistributionBalanceMeasureProps> {

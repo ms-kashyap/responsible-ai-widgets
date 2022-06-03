@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import {
-  IFeatureBalanceMeasure,
   IHighchartsConfig,
-  ApprovedFeatureBalanceMeasures
+  ApprovedFeatureBalanceMeasures,
+  IFeatureBalanceMeasures
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
 import { ColorAxisOptions } from "highcharts";
 import _ from "lodash";
 
 export function getFeatureBalanceMeasuresChart(
-  featureBalanceMeasures: IFeatureBalanceMeasure[],
+  featureBalanceMeasures: IFeatureBalanceMeasures,
   selectedFeature: string,
   selectedMeasure: string
 ): IHighchartsConfig {
   const measureInfo = ApprovedFeatureBalanceMeasures.get(selectedMeasure);
   if (
     featureBalanceMeasures === undefined ||
-    featureBalanceMeasures.length === 0 ||
+    Object.keys(featureBalanceMeasures).length === 0 ||
     measureInfo === undefined
   ) {
     return {};
@@ -27,9 +27,7 @@ export function getFeatureBalanceMeasuresChart(
   const chartLocalization =
     localization.ModelAssessment.DataBalance.FeatureBalanceMeasures.Chart;
 
-  const rows = featureBalanceMeasures.filter(
-    (m) => m.FeatureName === selectedFeature
-  );
+  const rows = featureBalanceMeasures[selectedFeature];
   const uniqueClasses = _.uniq(
     rows.map((r) => r.ClassA).concat(rows.map((r) => r.ClassB))
   );

@@ -1336,13 +1336,34 @@
           "Title2": "with the Uniform Distribution"
         },
         "Measures": {
-          "ChiSquarePValue": "Chi-Square P-Value",
-          "ChiSquareStatistic": "Chi-Square (χ2) Statistic",
-          "InfiniteNormDistance": "Infinite Norm Distance",
-          "JSDistance": "Jensen-Shannon Distance",
-          "KLDivergence": "Kullback-Leibler Divergence",
-          "TotalVariationDistance": "Total Variation Distance",
-          "WassersteinDistance": "Wasserstein Distance"
+          "ChiSquarePValue": {
+            "Name": "Chi-Square P-Value",
+            "Description": ""
+          },
+          "ChiSquareStatistic": {
+            "Name": "Chi-Square (χ2) Statistic",
+            "Description": ""
+          },
+          "InfiniteNormDistance": {
+            "Name": "Infinite Norm Distance",
+            "Description": ""
+          },
+          "JSDistance": {
+            "Name": "Jensen-Shannon Distance",
+            "Description": ""
+          },
+          "KLDivergence": {
+            "Name": "Kullback-Leibler Divergence",
+            "Description": ""
+          },
+          "TotalVariationDistance": {
+            "Name": "Total Variation Distance",
+            "Description": ""
+          },
+          "WassersteinDistance": {
+            "Name": "Wasserstein Distance",
+            "Description": ""
+          }
         },
         "Name": "Distribution Balance Measures"
       },

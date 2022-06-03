@@ -4,7 +4,7 @@
 import {
   ApprovedFeatureBalanceMeasures,
   HeatmapHighChart,
-  IFeatureBalanceMeasure,
+  IFeatureBalanceMeasures,
   LabelWithCallout
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
@@ -22,8 +22,7 @@ import { dataBalanceTabStyles } from "./DataBalanceTab.styles";
 import { getFeatureBalanceMeasuresChart } from "./getFeatureBalanceMeasuresChart";
 
 export interface IFeatureBalanceMeasuresProps {
-  featureBalanceMeasures: IFeatureBalanceMeasure[];
-  datasetName?: string;
+  featureBalanceMeasures: IFeatureBalanceMeasures;
 }
 
 export interface IFeatureBalanceMeasuresState {
@@ -54,9 +53,7 @@ export class FeatureBalanceMeasuresChart extends React.PureComponent<
     const measuresLocalization =
       localization.ModelAssessment.DataBalance.FeatureBalanceMeasures;
 
-    const featureOptions = _.uniq(
-      featureBalanceMeasures.map((v) => v.FeatureName)
-    ).map(
+    const featureOptions = _.uniq(Object.keys(featureBalanceMeasures)).map(
       (feature, index) => ({ key: index, text: feature } as IDropdownOption)
     );
     const selectedFeature =

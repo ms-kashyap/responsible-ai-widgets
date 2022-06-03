@@ -5,8 +5,8 @@ import { localization } from "@responsible-ai/localization";
 
 export interface IDataBalanceMeasures {
   aggregateBalanceMeasures?: IAggregateBalanceMeasures;
-  distributionBalanceMeasures?: IDistributionBalanceMeasure[];
-  featureBalanceMeasures?: IFeatureBalanceMeasure[];
+  distributionBalanceMeasures?: IDistributionBalanceMeasures;
+  featureBalanceMeasures?: IFeatureBalanceMeasures;
 }
 
 export interface IAggregateBalanceMeasures {
@@ -15,10 +15,13 @@ export interface IAggregateBalanceMeasures {
   theilTIndex: number;
 }
 
+export interface IDistributionBalanceMeasures {
+  [key: string]: IDistributionBalanceMeasure;
+}
+
 export interface IDistributionBalanceMeasure {
   chiSquarePValue: number;
   chiSquareStatistic: number;
-  FeatureName: string;
   infNormDist: number;
   jsDist: number;
   klDivergence: number;
@@ -26,10 +29,76 @@ export interface IDistributionBalanceMeasure {
   wassersteinDist: number;
 }
 
+const distLocalization =
+  localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Measures;
+
+interface IApprovedDistributionBalanceMeasure {
+  Description: string;
+  KeyName: string;
+}
+
+export const ApprovedDistributionBalanceMeasures = new Map<
+  string,
+  IApprovedDistributionBalanceMeasure
+>([
+  [
+    distLocalization.ChiSquarePValue.Name,
+    {
+      Description: distLocalization.ChiSquarePValue.Description,
+      KeyName: "chiSquarePValue"
+    }
+  ],
+  [
+    distLocalization.ChiSquareStatistic.Name,
+    {
+      Description: distLocalization.ChiSquareStatistic.Description,
+      KeyName: "chiSquareStatistic"
+    }
+  ],
+  [
+    distLocalization.InfiniteNormDistance.Name,
+    {
+      Description: distLocalization.InfiniteNormDistance.Description,
+      KeyName: "infNormDist"
+    }
+  ],
+  [
+    distLocalization.JSDistance.Name,
+    {
+      Description: distLocalization.JSDistance.Description,
+      KeyName: "jsDist"
+    }
+  ],
+  [
+    distLocalization.KLDivergence.Name,
+    {
+      Description: distLocalization.KLDivergence.Description,
+      KeyName: "klDivergence"
+    }
+  ],
+  [
+    distLocalization.TotalVariationDistance.Name,
+    {
+      Description: distLocalization.TotalVariationDistance.Description,
+      KeyName: "totalVariationDist"
+    }
+  ],
+  [
+    distLocalization.WassersteinDistance.Name,
+    {
+      Description: distLocalization.WassersteinDistance.Description,
+      KeyName: "wassersteinDist"
+    }
+  ]
+]);
+
+export interface IFeatureBalanceMeasures {
+  [key: string]: IFeatureBalanceMeasure[];
+}
+
 export interface IFeatureBalanceMeasure {
   ClassA: string;
   ClassB: string;
-  FeatureName: string;
   statisticalParity: number;
   pointwiseMutualInfo: number;
   sorensenDiceCoefficient: number;
@@ -39,7 +108,7 @@ export interface IFeatureBalanceMeasure {
   tTest: number;
 }
 
-const featureBalanceMeasures =
+const featLocalization =
   localization.ModelAssessment.DataBalance.FeatureBalanceMeasures.Measures;
 
 interface IApprovedFeatureBalanceMeasure {
@@ -58,65 +127,64 @@ export const ApprovedFeatureBalanceMeasures = new Map<
   IApprovedFeatureBalanceMeasure
 >([
   [
-    featureBalanceMeasures.StatisticalParity.Name,
+    featLocalization.StatisticalParity.Name,
     {
       Coefficient: -1,
-      Description: featureBalanceMeasures.StatisticalParity.Description,
+      Description: featLocalization.StatisticalParity.Description,
       KeyName: "statisticalParity",
       Range: [-1, 1]
     }
   ],
   [
-    featureBalanceMeasures.PointwiseMutualInformation.Name,
+    featLocalization.PointwiseMutualInformation.Name,
     {
       Coefficient: 1,
-      Description:
-        featureBalanceMeasures.PointwiseMutualInformation.Description,
+      Description: featLocalization.PointwiseMutualInformation.Description,
       KeyName: "pointwiseMutualInfo",
       Range: [-1, 1]
     }
   ],
   [
-    featureBalanceMeasures.SorensenDiceCoefficient.Name,
+    featLocalization.SorensenDiceCoefficient.Name,
     {
       Coefficient: 1,
-      Description: featureBalanceMeasures.SorensenDiceCoefficient.Description,
+      Description: featLocalization.SorensenDiceCoefficient.Description,
       KeyName: "sorensenDiceCoefficient",
       Range: [-1, 1]
     }
   ],
   [
-    featureBalanceMeasures.JaccardIndex.Name,
+    featLocalization.JaccardIndex.Name,
     {
       Coefficient: 1,
-      Description: featureBalanceMeasures.JaccardIndex.Description,
+      Description: featLocalization.JaccardIndex.Description,
       KeyName: "jaccardIndex",
       Range: [-1, 1]
     }
   ],
   [
-    featureBalanceMeasures.KendallRankCorrelation.Name,
+    featLocalization.KendallRankCorrelation.Name,
     {
       Coefficient: 1,
-      Description: featureBalanceMeasures.KendallRankCorrelation.Description,
+      Description: featLocalization.KendallRankCorrelation.Description,
       KeyName: "kendallRankCorrelation",
       Range: [-1, 1]
     }
   ],
   [
-    featureBalanceMeasures.LogLikelihoodRatio.Name,
+    featLocalization.LogLikelihoodRatio.Name,
     {
       Coefficient: 1,
-      Description: featureBalanceMeasures.LogLikelihoodRatio.Description,
+      Description: featLocalization.LogLikelihoodRatio.Description,
       KeyName: "logLikelihoodRatio",
       Range: [-1, 1]
     }
   ],
   [
-    featureBalanceMeasures.TTest.Name,
+    featLocalization.TTest.Name,
     {
       Coefficient: 1,
-      Description: featureBalanceMeasures.TTest.Description,
+      Description: featLocalization.TTest.Description,
       KeyName: "tTest",
       Range: [-1, 1]
     }
