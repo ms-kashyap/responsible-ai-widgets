@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { localization } from "@responsible-ai/localization";
-import { RangeTypes } from "@responsible-ai/mlchartlib";
-import _ from "lodash";
 import {
+  IComboBoxOption,
+  IComboBox,
   Text,
   TextField,
   DefaultButton,
   PrimaryButton,
-  IComboBox,
-  IComboBoxOption,
   Stack,
   Panel,
-  ChoiceGroup,
-  IChoiceGroupOption,
   Link
-} from "office-ui-fabric-react";
+} from "@fluentui/react";
+import { localization } from "@responsible-ai/localization";
+import { RangeTypes } from "@responsible-ai/mlchartlib";
+import _ from "lodash";
+import { ChoiceGroup, IChoiceGroupOption } from "office-ui-fabric-react";
 import React, { FormEvent } from "react";
 
 import { ConfirmationDialog } from "../../components/ConfirmationDialog";
@@ -503,7 +502,7 @@ export class CohortEditor extends React.PureComponent<
   private setDefaultStateForKey(key: string): void {
     const filter: IFilter = { column: key } as IFilter;
     const meta = this.props.jointDataset.metaDict[key];
-    if (meta.treatAsCategorical && meta.sortedCategoricalValues) {
+    if (meta?.treatAsCategorical && meta.sortedCategoricalValues) {
       filter.method = FilterMethods.Includes;
       filter.arg = [...new Array(meta.sortedCategoricalValues.length).keys()];
     } else {

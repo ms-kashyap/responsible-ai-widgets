@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { IComboBoxOption, IComboBox, ComboBox } from "@fluentui/react";
 import {
   defaultModelAssessmentContext,
   ICounterfactualData,
+  JointDataset,
   MissingParametersPlaceholder,
   ModelAssessmentContext
 } from "@responsible-ai/core-ui";
@@ -11,15 +13,12 @@ import { localization } from "@responsible-ai/localization";
 import _, { toNumber } from "lodash";
 import {
   Callout,
-  ComboBox,
   ConstrainMode,
   DetailsList,
   DetailsListLayoutMode,
   DetailsRow,
   DetailsRowFields,
   IColumn,
-  IComboBox,
-  IComboBoxOption,
   IDetailsFooterProps,
   IDetailsRowFieldsProps,
   IDetailsRowProps,
@@ -253,6 +252,7 @@ export class CounterfactualList extends React.Component<
       </Stack>
     );
   };
+
   private getColumns(): IColumn[] {
     const columns: IColumn[] = [];
     const targetFeature = this.getTargetFeatureName();
@@ -369,6 +369,22 @@ export class CounterfactualList extends React.Component<
       column?.key
     );
     const styles = counterfactualListStyle();
+    const targetFeature = this.getTargetFeatureName();
+    if (column && targetFeature && column.fieldName === targetFeature) {
+      const predictedClass = this.context.jointDataset.hasPredictedY
+        ? this.props.temporaryPoint?.[JointDataset.PredictedYLabel]
+        : undefined;
+      return (
+        <Stack horizontal={false} tokens={{ childrenGap: "s1" }}>
+          <Stack.Item className={styles.dropdownLabel}>
+            <Text>{column.name}</Text>
+          </Stack.Item>
+          <Stack.Item>
+            <Text>{predictedClass}</Text>
+          </Stack.Item>
+        </Stack>
+      );
+    }
     if (column && dropdownOption?.data?.categoricalOptions) {
       return (
         <Stack horizontal={false} tokens={{ childrenGap: "s1" }}>
