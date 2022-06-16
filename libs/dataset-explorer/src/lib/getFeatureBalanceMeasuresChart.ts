@@ -92,15 +92,18 @@ export function getFeatureBalanceMeasuresChart(
     ],
     tooltip: {
       formatter() {
+        // to avoid semantic error during build cast point to any
+        const point = this.point as any;
+
         // tooltip format: "{classA} and {classB} have a {measureName} of {measureValue}"
         // uniqueClasses can be used to index because it represents both xAxis and yAxis categories
-        return `<b>${uniqueClasses[this.y]}</b> ${
+        return `<b>${uniqueClasses[point.y]}</b> ${
           chartLocalization.Tooltip.And
-        } <b>${uniqueClasses[this.point.x]}</b> ${
+        } <b>${uniqueClasses[point.x]}</b> ${
           chartLocalization.Tooltip.ValueDescription1
         } <b>${selectedMeasure}</b> ${
           chartLocalization.Tooltip.ValueDescription2
-        } <b>${this.point.value?.toFixed(3)}</b>`;
+        } <b>${point.value.toFixed(3)}</b>`;
       }
     },
     xAxis: {

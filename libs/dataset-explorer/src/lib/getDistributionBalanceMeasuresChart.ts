@@ -25,7 +25,7 @@ export function getDistributionBalanceMeasuresChart(
     return {};
   }
 
-  const distLocalization =
+  const measureLocalization =
     localization.ModelAssessment.DataBalance.DistributionBalanceMeasures
       .Measures;
   const chartLocalization =
@@ -41,8 +41,8 @@ export function getDistributionBalanceMeasuresChart(
 
   // Keeps track of charts that are hidden at the start. Gets updated during legend click event.
   const hiddenCharts = new Set([
-    distLocalization.ChiSquarePValue.Name,
-    distLocalization.ChiSquareStatistic.Name
+    measureLocalization.ChiSquarePValue.Name,
+    measureLocalization.ChiSquareStatistic.Name
   ]);
 
   // Calculate the width of each subplot and the padding between each subplot
@@ -73,7 +73,10 @@ export function getDistributionBalanceMeasuresChart(
         left: hiddenCharts.has(measureName) ? "0%" : `${axisLeftStart}%`,
         offset: 0,
         showEmpty: false,
-        title: { text: chartLocalization.Axes.MeasureValue },
+        title: {
+          // Show y-axis label on the leftmost subplot only
+          text: axisLeftStart === 0 ? chartLocalization.Axes.MeasureValue : ""
+        },
         width: hiddenCharts.has(measureName) ? "0%" : `${width - padding}%`
       });
 
@@ -85,7 +88,7 @@ export function getDistributionBalanceMeasuresChart(
         data: measureValues,
         events: {
           // Define an event to re-compute the left and width of x-axis and y-axis for every
-          // single subplot when the user clicks on the legend to either show or hide a subplot
+          // subplot when the user clicks on the legend to either show or hide a subplot
           legendItemClick: (e: SeriesLegendItemClickEventObject) =>
             showHideSubplot(e, hiddenCharts, padding)
         },
@@ -129,6 +132,9 @@ function showHideSubplot(
   hiddenCharts: Set<string>,
   padding: number
 ): void {
+  const chartLocalization =
+    localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Chart;
+
   // If the clicked-on chart was already hidden, that means user clicked to show it so remove it from hidden charts.
   if (hiddenCharts.has(e.target.name)) {
     hiddenCharts.delete(e.target.name);
@@ -158,6 +164,10 @@ function showHideSubplot(
       });
       yAxis.update({
         left: `${axisLeftStart}%`,
+        title: {
+          // Show y-axis label on the leftmost subplot only
+          text: axisLeftStart === 0 ? chartLocalization.Axes.MeasureValue : ""
+        },
         width: `${width - padding}%`
       });
 
