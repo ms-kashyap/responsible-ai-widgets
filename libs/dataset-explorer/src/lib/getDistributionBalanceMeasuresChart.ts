@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  ApprovedDistributionBalanceMeasures,
   IDistributionBalanceMeasures,
-  IHighchartsConfig
+  IHighchartsConfig,
+  nameof
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
 import {
@@ -13,7 +13,76 @@ import {
   XAxisOptions,
   YAxisOptions
 } from "highcharts";
-import _ from "lodash";
+
+const distLocalization =
+  localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Measures;
+
+interface IDistributionBalanceMetadata {
+  Description: string;
+  KeyName: string;
+}
+
+export const DistributionBalanceMeasuresMap = new Map<
+  string,
+  IDistributionBalanceMetadata
+>([
+  [
+    distLocalization.ChiSquarePValue.Name,
+    {
+      Description: distLocalization.ChiSquarePValue.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("ChiSquarePValue")
+    }
+  ],
+  [
+    distLocalization.ChiSquareStatistic.Name,
+    {
+      Description: distLocalization.ChiSquareStatistic.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("ChiSquareStat")
+    }
+  ],
+  [
+    distLocalization.CrossEntropy.Name,
+    {
+      Description: distLocalization.CrossEntropy.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("CrossEntropy")
+    }
+  ],
+  [
+    distLocalization.InfiniteNormDistance.Name,
+    {
+      Description: distLocalization.InfiniteNormDistance.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("InfiniteNormDist")
+    }
+  ],
+  [
+    distLocalization.JSDistance.Name,
+    {
+      Description: distLocalization.JSDistance.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("JensenShannonDist")
+    }
+  ],
+  [
+    distLocalization.KLDivergence.Name,
+    {
+      Description: distLocalization.KLDivergence.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("KLDivergence")
+    }
+  ],
+  [
+    distLocalization.TotalVariationDistance.Name,
+    {
+      Description: distLocalization.TotalVariationDistance.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("TotalVarianceDist")
+    }
+  ],
+  [
+    distLocalization.WassersteinDistance.Name,
+    {
+      Description: distLocalization.WassersteinDistance.Description,
+      KeyName: nameof<IDistributionBalanceMeasures>("WassersteinDist")
+    }
+  ]
+]);
 
 export function getDistributionBalanceMeasuresChart(
   distributionBalanceMeasures: IDistributionBalanceMeasures
@@ -30,6 +99,7 @@ export function getDistributionBalanceMeasuresChart(
       .Measures;
   const chartLocalization =
     localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Chart;
+  const infoIcon = "&#9432;";
 
   const features = Object.keys(distributionBalanceMeasures);
 
@@ -40,20 +110,23 @@ export function getDistributionBalanceMeasuresChart(
     yAxes: YAxisOptions[] = [];
 
   // Keeps track of charts that are hidden at the start. Gets updated during legend click event.
+  // Since there are many subplots, start with some hidden and some visible.
   const hiddenCharts = new Set([
     measureLocalization.ChiSquarePValue.Name,
-    measureLocalization.ChiSquareStatistic.Name
+    measureLocalization.KLDivergence.Name,
+    measureLocalization.CrossEntropy.Name,
+    measureLocalization.TotalVariationDistance.Name
   ]);
 
   // Calculate the width of each subplot and the padding between each subplot
   const numVisibleCharts =
-    ApprovedDistributionBalanceMeasures.size - hiddenCharts.size;
+    DistributionBalanceMeasuresMap.size - hiddenCharts.size;
   const width = 100 / numVisibleCharts;
   const padding = 5;
 
   // Represents axis.left for each subplot, meaning at which point from the left to start the subplot
   let axisLeftStart = 0;
-  [...ApprovedDistributionBalanceMeasures.entries()].forEach(
+  [...DistributionBalanceMeasuresMap.entries()].forEach(
     ([measureName, measureInfo], i) => {
       const measureValues = features.map(
         (f) => distributionBalanceMeasures[f][measureInfo.KeyName]
@@ -66,7 +139,11 @@ export function getDistributionBalanceMeasuresChart(
         left: hiddenCharts.has(measureName) ? "0%" : `${axisLeftStart}%`,
         offset: 0,
         showEmpty: false,
-        title: { text: measureName },
+        title: {
+          // If user hovers over the title, they are presented with the measure description.
+          text: `<div title="${measureInfo.Description}">${measureName} ${infoIcon}</div>`,
+          useHTML: true
+        },
         width: hiddenCharts.has(measureName) ? "0%" : `${width - padding}%`
       });
       yAxes.push({
@@ -112,6 +189,9 @@ export function getDistributionBalanceMeasuresChart(
     plotOptions: {
       column: {
         colorByPoint: true,
+        dataLabels: {
+          enabled: true
+        },
         grouping: false
       }
     },
@@ -121,7 +201,9 @@ export function getDistributionBalanceMeasuresChart(
         chartLocalization.Title2
       }`
     },
-    // tooltip: { TODO },
+    tooltip: {
+      shared: false
+    },
     xAxis: xAxes,
     yAxis: yAxes
   };
@@ -145,7 +227,7 @@ function showHideSubplot(
 
   // Recompute # of visible charts and the width of each subplot after updating list of hiddden charts.
   const numVisibleCharts =
-    ApprovedDistributionBalanceMeasures.size - hiddenCharts.size;
+    DistributionBalanceMeasuresMap.size - hiddenCharts.size;
   const width = 100 / numVisibleCharts;
 
   let axisLeftStart = 0;

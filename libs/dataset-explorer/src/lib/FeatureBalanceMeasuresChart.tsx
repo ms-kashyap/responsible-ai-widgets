@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import {
-  ApprovedFeatureBalanceMeasures,
   HeatmapHighChart,
   IFeatureBalanceMeasures,
   LabelWithCallout
@@ -19,7 +18,10 @@ import {
 import React from "react";
 
 import { dataBalanceTabStyles } from "./DataBalanceTab.styles";
-import { getFeatureBalanceMeasuresChart } from "./getFeatureBalanceMeasuresChart";
+import {
+  FeatureBalanceMeasuresMap,
+  getFeatureBalanceMeasuresChart
+} from "./getFeatureBalanceMeasuresChart";
 
 export interface IFeatureBalanceMeasuresProps {
   featureBalanceMeasures: IFeatureBalanceMeasures;
@@ -59,7 +61,7 @@ export class FeatureBalanceMeasuresChart extends React.PureComponent<
     const selectedFeature =
       featureOptions[this.state.selectedFeatureIndex].text;
 
-    const measureOptions = [...ApprovedFeatureBalanceMeasures.keys()].map(
+    const measureOptions = [...FeatureBalanceMeasuresMap.keys()].map(
       (measure, index) => ({ key: index, text: measure } as IDropdownOption)
     );
     const selectedMeasure =
@@ -84,6 +86,7 @@ export class FeatureBalanceMeasuresChart extends React.PureComponent<
               >
                 <Text block>{measuresLocalization.Callout.Description}</Text>
                 <Link
+                  // TODO: Replace link with https://responsibleaitoolbox.ai/ link once docs are published there
                   href="https://microsoft.github.io/SynapseML/docs/features/responsible_ai/Data%20Balance%20Analysis/#feature-balance-measures"
                   target="_blank"
                 >
@@ -168,18 +171,19 @@ export class FeatureBalanceMeasuresChart extends React.PureComponent<
                 </Stack.Item>
                 <Stack.Item>
                   <Text>
-                    {/* Because <Text> does not support bolding single words, split it into multiple <Text>s */}
+                    {/* Because <Text> does not support bolding single words, split it into multiple <Text>s
+                        Format is: "Showing <measure> gaps on all classes of <feature>" */}
                     <Text variant="mediumPlus">
                       {measuresLocalization.Description1}
                     </Text>
                     <Text variant="mediumPlus" className={styles.boldText}>
-                      {selectedMeasure}
+                      {` ${selectedMeasure} `}
                     </Text>
                     <Text variant="mediumPlus">
                       {measuresLocalization.Description2}
                     </Text>
                     <Text variant="mediumPlus" className={styles.boldText}>
-                      {selectedFeature}
+                      {` ${selectedFeature}`}
                     </Text>
                   </Text>
                 </Stack.Item>
@@ -195,7 +199,7 @@ export class FeatureBalanceMeasuresChart extends React.PureComponent<
             <Text className={styles.boldText}>{selectedMeasure}</Text>
             <Text> </Text>
             <Text>
-              {ApprovedFeatureBalanceMeasures.get(selectedMeasure)?.Description}
+              {FeatureBalanceMeasuresMap.get(selectedMeasure)?.Description}
             </Text>
           </Text>
         </Stack.Item>

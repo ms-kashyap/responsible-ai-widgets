@@ -41,7 +41,7 @@ export class AggregateBalanceMeasuresTable extends React.PureComponent<IAggregat
         fieldName: "featureName",
         isResizable: true,
         key: "featureNameCol",
-        maxWidth: 200,
+        maxWidth: 150,
         minWidth: 100,
         name: measuresLocalization.Table.FeatureName
       },
@@ -50,16 +50,16 @@ export class AggregateBalanceMeasuresTable extends React.PureComponent<IAggregat
         fieldName: "featureValue",
         isResizable: true,
         key: "featureValueCol",
-        maxWidth: 200,
+        maxWidth: 150,
         minWidth: 100,
         name: measuresLocalization.Table.FeatureValue
       },
       {
         ariaLabel: measuresLocalization.Table.Description,
         fieldName: "description",
+        isMultiline: true,
         isResizable: true,
         key: "descriptionCol",
-        maxWidth: 200,
         minWidth: 100,
         name: measuresLocalization.Table.Description
       }
@@ -103,6 +103,7 @@ export class AggregateBalanceMeasuresTable extends React.PureComponent<IAggregat
               >
                 <Text block>{measuresLocalization.Callout.Description}</Text>
                 <Link
+                  // TODO: Replace link with https://responsibleaitoolbox.ai/ link once docs are published there
                   href="https://microsoft.github.io/SynapseML/docs/features/responsible_ai/Data%20Balance%20Analysis/#aggregate-balance-measures"
                   target="_blank"
                 >

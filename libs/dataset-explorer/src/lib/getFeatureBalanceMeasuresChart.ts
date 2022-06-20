@@ -3,19 +3,96 @@
 
 import {
   IHighchartsConfig,
-  ApprovedFeatureBalanceMeasures,
-  IFeatureBalanceMeasures
+  IFeatureBalanceMeasures,
+  nameof,
+  IFeatureBalanceMeasure
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
 import { ColorAxisOptions } from "highcharts";
 import _ from "lodash";
+import { getTheme } from "office-ui-fabric-react";
+
+interface IFeatureBalanceMetadata {
+  Description: string;
+  KeyName: string;
+  // If a range is not specified (i.e. because it is [-inf, +inf]), then min/max values are used
+  Range?: [number, number];
+}
+
+const featLocalization =
+  localization.ModelAssessment.DataBalance.FeatureBalanceMeasures.Measures;
+
+// Map that contains display name -> measure metadata pairs, corresponds to
+// the feature balance measures that can be displayed in the heatmap
+export const FeatureBalanceMeasuresMap = new Map<
+  string,
+  IFeatureBalanceMetadata
+>([
+  [
+    featLocalization.StatisticalParity.Name,
+    {
+      Description: featLocalization.StatisticalParity.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("StatisticalParity"),
+      Range: [-1, 1]
+    }
+  ],
+  [
+    featLocalization.PointwiseMutualInformation.Name,
+    {
+      Description: featLocalization.PointwiseMutualInformation.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("PointwiseMutualInfo")
+    }
+  ],
+  [
+    featLocalization.SorensenDiceCoefficient.Name,
+    {
+      Description: featLocalization.SorensenDiceCoefficient.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("SorensonDiceCoeff")
+    }
+  ],
+  [
+    featLocalization.JaccardIndex.Name,
+    {
+      Description: featLocalization.JaccardIndex.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("JaccardIndex")
+    }
+  ],
+  [
+    featLocalization.KendallRankCorrelation.Name,
+    {
+      Description: featLocalization.KendallRankCorrelation.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("KendallRankCorrelation")
+    }
+  ],
+  [
+    featLocalization.LogLikelihoodRatio.Name,
+    {
+      Description: featLocalization.LogLikelihoodRatio.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("LogLikelihoodRatio")
+    }
+  ],
+  [
+    featLocalization.TTest.Name,
+    {
+      Description: featLocalization.TTest.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("TTest")
+    }
+  ],
+  [
+    featLocalization.TTestPValue.Name,
+    {
+      Description: featLocalization.TTestPValue.Description,
+      KeyName: nameof<IFeatureBalanceMeasure>("TTestPValue")
+    }
+  ]
+]);
 
 export function getFeatureBalanceMeasuresChart(
   featureBalanceMeasures: IFeatureBalanceMeasures,
   selectedFeature: string,
   selectedMeasure: string
 ): IHighchartsConfig {
-  const measureInfo = ApprovedFeatureBalanceMeasures.get(selectedMeasure);
+  const measureInfo = FeatureBalanceMeasuresMap.get(selectedMeasure);
   if (
     featureBalanceMeasures === undefined ||
     Object.keys(featureBalanceMeasures).length === 0 ||
@@ -36,11 +113,13 @@ export function getFeatureBalanceMeasuresChart(
   uniqueClasses.forEach((classA, colIndex) => {
     uniqueClasses.forEach((classB, rowIndex) => {
       let row = rows.find((r) => r.ClassA === classA && r.ClassB === classB);
-      let flipped = false;
+      let foundFlipped = false;
 
       if (row === undefined) {
+        // If a row doesn't exist for ClassA vs. ClassB, try to find one for
+        // ClassB vs. ClassA
         row = rows.find((r) => r.ClassA === classB && r.ClassB === classA);
-        flipped = true;
+        foundFlipped = true;
       }
 
       const measureName = measureInfo.KeyName;
@@ -49,14 +128,27 @@ export function getFeatureBalanceMeasuresChart(
         measureName !== undefined &&
         measureName in row
       ) {
-        const measureValue =
-          row[measureName] * (flipped ? measureInfo.Coefficient : 1);
+        // If a measure value is found for ClassB vs. ClassA, flip its value
+        // since every feature balance measure gap is symmetric
+        const measureValue = row[measureName] * (foundFlipped ? -1 : 1);
         items.push([rowIndex, colIndex, measureValue]);
       }
     });
   });
 
-  const colorAxisOptions = {} as ColorAxisOptions;
+  // Chosen color scale is "viridis", the default color scale for matplotlib, because it is:
+  // - colorful (highlights differences easily)
+  // - perceptually uniform (values close to each other have similar colors and vice versa)
+  // - robust to colorblindness and grayscale (hotspots in heatmap are still visible)
+  const theme = getTheme();
+  const colorAxisOptions = {
+    stops: [
+      [0, theme.palette.purpleDark],
+      [0.5, theme.palette.teal],
+      [1, theme.palette.yellowLight]
+    ]
+  } as ColorAxisOptions;
+
   if (measureInfo.Range) {
     [colorAxisOptions.min, colorAxisOptions.max] = measureInfo.Range;
   } else {
