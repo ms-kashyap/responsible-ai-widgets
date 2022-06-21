@@ -9,7 +9,6 @@ class ManagerNames(object):
 
     CAUSAL = 'causal'
     COUNTERFACTUAL = 'counterfactual'
-    DATA_BALANCE = 'data_balance'
     ERROR_ANALYSIS = 'error_analysis'
     EXPLAINER = 'explainer'
 

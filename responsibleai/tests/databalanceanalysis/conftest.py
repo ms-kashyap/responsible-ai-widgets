@@ -1,14 +1,12 @@
 # Copyright (c) Microsoft Corporation
 # Licensed under the MIT License.
 
+import copy
+
 import pandas as pd
 import pytest
 
 from ..common_utils import create_adult_income_dataset
-
-SYNTHETIC_DATA_LABEL = "Label"
-GENDER = "Gender"
-ETHNICITY = "Ethnicity"
 
 
 @pytest.fixture(scope="session")
@@ -23,10 +21,12 @@ def adult_data():
         target_col,
         _,
     ) = create_adult_income_dataset()
-    data_train[target_col] = y_train
-    data_test[target_col] = y_test
+    train_df = copy.deepcopy(data_train)
+    test_df = copy.deepcopy(data_test)
+    train_df[target_col] = y_train
+    test_df[target_col] = y_test
     cols_of_interest = categorical_features
-    return data_train, data_test, cols_of_interest, target_col
+    return train_df, test_df, cols_of_interest, target_col
 
 
 @pytest.fixture(scope="session")
@@ -81,7 +81,9 @@ def adult_data_aggregate_balance_measures():
 # results, and then compared to the actual results. This and the expected
 # measure fixtures below it are ports from the open source SynapseML repo.
 @pytest.fixture(scope="session")
-def synthetic_data():
+def synthetic_data(
+    synthetic_data_label, synthetic_data_feature_1, synthetic_data_feature_2
+):
     rows = [
         (0, "Male", "Asian"),
         (0, "Male", "White"),
@@ -95,12 +97,31 @@ def synthetic_data():
     ]
     return pd.DataFrame(
         rows,
-        columns=[SYNTHETIC_DATA_LABEL, GENDER, ETHNICITY],
+        columns=[
+            synthetic_data_label,
+            synthetic_data_feature_1,
+            synthetic_data_feature_2,
+        ],
     )
 
 
 @pytest.fixture(scope="session")
-def expected_aggregate_measures_gender():
+def synthetic_data_label():
+    return "Label"
+
+
+@pytest.fixture(scope="session")
+def synthetic_data_feature_1():
+    return "Gender"
+
+
+@pytest.fixture(scope="session")
+def synthetic_data_feature_2():
+    return "Ethnicity"
+
+
+@pytest.fixture(scope="session")
+def expected_aggregate_measures_feature_1():
     return {
         "AtkinsonIndex": 0.03850028646172776,
         "TheilLIndex": 0.039261011885461196,
@@ -109,7 +130,7 @@ def expected_aggregate_measures_gender():
 
 
 @pytest.fixture(scope="session")
-def expected_aggregate_measures_gender_ethnicity():
+def expected_aggregate_measures_both_features():
     return {
         "AtkinsonIndex": 0.030659793186437745,
         "TheilLIndex": 0.03113963808639034,
@@ -118,7 +139,7 @@ def expected_aggregate_measures_gender_ethnicity():
 
 
 @pytest.fixture(scope="session")
-def expected_distribution_measures_gender():
+def expected_distribution_measures_feature_1():
     return {
         "FeatureName": "Gender",
         "KLDivergence": 0.03775534151008829,
@@ -133,7 +154,7 @@ def expected_distribution_measures_gender():
 
 
 @pytest.fixture(scope="session")
-def expected_distribution_measures_ethnicity():
+def expected_distribution_measures_feature_2():
     return {
         "FeatureName": "Ethnicity",
         "KLDivergence": 0.07551068302017659,
@@ -148,7 +169,7 @@ def expected_distribution_measures_ethnicity():
 
 
 @pytest.fixture(scope="session")
-def expected_feature_balance_measures_gender():
+def expected_feature_balance_measures():
     # Note: Compared to SynapseML, this module does not compute n_pmi_y,
     # n_pmi_xy, and s_pmi. However, this module does compute TTest and
     # TTestPValue so their actual values are used.

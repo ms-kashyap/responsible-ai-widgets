@@ -44,7 +44,6 @@ class TestRAIInsightsSaveAndLoadScenarios(object):
             rai_insights.save(save_1)
             assert len(os.listdir(save_1 / ManagerNames.CAUSAL)) == 0
             assert len(os.listdir(save_1 / ManagerNames.COUNTERFACTUAL)) == 0
-            assert len(os.listdir(save_1 / ManagerNames.DATA_BALANCE)) == 0
             assert len(os.listdir(save_1 / ManagerNames.ERROR_ANALYSIS)) == 0
             assert len(os.listdir(save_1 / ManagerNames.EXPLAINER)) == 0
 
@@ -60,15 +59,13 @@ class TestRAIInsightsSaveAndLoadScenarios(object):
             rai_2.save(save_2)
             assert len(os.listdir(save_2 / ManagerNames.CAUSAL)) == 0
             assert len(os.listdir(save_2 / ManagerNames.COUNTERFACTUAL)) == 0
-            assert len(os.listdir(save_2 / ManagerNames.DATA_BALANCE)) == 0
             assert len(os.listdir(save_2 / ManagerNames.ERROR_ANALYSIS)) == 0
             assert len(os.listdir(save_2 / ManagerNames.EXPLAINER)) == 0
 
     @pytest.mark.parametrize('manager_type', [ManagerNames.CAUSAL,
                                               ManagerNames.ERROR_ANALYSIS,
                                               ManagerNames.EXPLAINER,
-                                              ManagerNames.COUNTERFACTUAL,
-                                              ManagerNames.DATA_BALANCE])
+                                              ManagerNames.COUNTERFACTUAL])
     def test_rai_insights_save_load_add_save(self, manager_type):
         data_train, data_test, y_train, y_test, categorical_features, \
             continuous_features, target_name, classes = \
@@ -109,8 +106,6 @@ class TestRAIInsightsSaveAndLoadScenarios(object):
                     desired_class='opposite',
                     feature_importance=False
                 )
-            elif manager_type == ManagerNames.DATA_BALANCE:
-                rai_2.data_balance.add(cols_of_interest=categorical_features)
             elif manager_type == ManagerNames.ERROR_ANALYSIS:
                 rai_2.error_analysis.add()
             elif manager_type == ManagerNames.EXPLAINER:
@@ -203,8 +198,7 @@ class TestRAIInsightsSaveAndLoadScenarios(object):
     @pytest.mark.parametrize('manager_type', [ManagerNames.CAUSAL,
                                               ManagerNames.ERROR_ANALYSIS,
                                               ManagerNames.EXPLAINER,
-                                              ManagerNames.COUNTERFACTUAL,
-                                              ManagerNames.DATA_BALANCE])
+                                              ManagerNames.COUNTERFACTUAL])
     def test_rai_insights_add_save_load_save(self, manager_type):
         data_train, data_test, y_train, y_test, categorical_features, \
             continuous_features, target_name, classes = \
@@ -234,10 +228,6 @@ class TestRAIInsightsSaveAndLoadScenarios(object):
                 total_CFs=10,
                 desired_class='opposite',
                 feature_importance=False
-            )
-        elif manager_type == ManagerNames.DATA_BALANCE:
-            rai_insights.data_balance.add(
-                cols_of_interest=categorical_features
             )
         elif manager_type == ManagerNames.ERROR_ANALYSIS:
             rai_insights.error_analysis.add()
