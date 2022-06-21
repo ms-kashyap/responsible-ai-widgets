@@ -5,8 +5,8 @@ import { IModelAssessmentData } from "./IModelAssessmentData";
 
 export const regExForNumbersWithBrackets = /^\((\d+)\)$/; // Ex: (60)
 
-const modelAssessmentDatasets = {
-  ClassificationModelDebugging: {
+const modelAssessmentDatasets: { [name: string]: IModelAssessmentData } = {
+  CensusClassificationModelDebugging: {
     causalAnalysisData: {
       hasCausalAnalysisComponent: false
     },
@@ -79,6 +79,7 @@ const modelAssessmentDatasets = {
       classValue: "Probability : <=50K",
       columnHeaderAfterSort: "capital-gain",
       columnHeaderBeforeSort: "age",
+      createYourOwnCounterfactualDecimalInput: "18.5",
       createYourOwnCounterfactualInputFieldUpdated: "25",
       hasWhatIfCounterfactualsComponent: true,
       newClassValue: "Probability : >50K",
@@ -126,6 +127,7 @@ const modelAssessmentDatasets = {
       "age",
       "s6"
     ],
+    isRegression: true,
     modelStatisticsData: {
       cohortDropDownValues: [
         "All data",
@@ -149,6 +151,7 @@ const modelAssessmentDatasets = {
       checkForClassField: false,
       columnHeaderAfterSort: "s5",
       columnHeaderBeforeSort: "age",
+      createYourOwnCounterfactualDecimalInput: "18.5",
       createYourOwnCounterfactualInputFieldUpdated: "25",
       hasWhatIfCounterfactualsComponent: true,
       searchBarQuery: "sex",
@@ -215,6 +218,7 @@ const modelAssessmentDatasets = {
       checkForClassField: false,
       columnHeaderAfterSort: "s5",
       columnHeaderBeforeSort: "age",
+      createYourOwnCounterfactualDecimalInput: "18.5",
       createYourOwnCounterfactualInputFieldUpdated: "25",
       hasWhatIfCounterfactualsComponent: true,
       searchBarQuery: "s6",
@@ -309,6 +313,7 @@ const modelAssessmentDatasets = {
       classValue: "Probability : Less than median",
       columnHeaderAfterSort: "OverallQual",
       columnHeaderBeforeSort: "LotFrontage",
+      createYourOwnCounterfactualDecimalInput: "18.5",
       createYourOwnCounterfactualInputFieldUpdated: "25",
       hasWhatIfCounterfactualsComponent: true,
       newClassValue: "Probability : More than median",

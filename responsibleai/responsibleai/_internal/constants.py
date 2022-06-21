@@ -61,24 +61,6 @@ class CausalManagerKeys(object):
     POLICIES_COMPUTED = 'policies_computed'
 
 
-class DataBalanceManagerKeys(object):
-    """Provide constants for DataBalanceManager key properties."""
-    IS_ADDED = 'is_added'
-    COLS_OF_INTEREST = 'cols_of_interest'
-    TARGET_COLUMN = 'target_column'
-    POS_LABEL = 'pos_label'
-
-
-class SKLearn(object):
-    """Provide scikit-learn related constants."""
-
-    EXAMPLES = 'examples'
-    LABELS = 'labels'
-    PREDICT = 'predict'
-    PREDICTIONS = 'predictions'
-    PREDICT_PROBA = 'predict_proba'
-
-
 class ExplanationKeys(object):
 
     EBM_GLOBAL_EXPLANATION_KEY = 'ebm_global'

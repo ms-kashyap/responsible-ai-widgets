@@ -1,7 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IComboBoxOption, IComboBox, ComboBox } from "@fluentui/react";
+import {
+  IComboBoxOption,
+  IComboBox,
+  ComboBox,
+  Stack,
+  Text,
+  Pivot,
+  PivotItem,
+  ActionButton,
+  MessageBar,
+  Toggle
+} from "@fluentui/react";
 import {
   MissingParametersPlaceholder,
   defaultModelAssessmentContext,
@@ -19,15 +30,6 @@ import {
   ILabeledStatistic
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
-import {
-  Stack,
-  Text,
-  Pivot,
-  PivotItem,
-  ActionButton,
-  MessageBar,
-  Toggle
-} from "office-ui-fabric-react";
 import React from "react";
 
 import { ChartConfigurationFlyout } from "./ChartConfigurationFlyout";
@@ -250,7 +252,7 @@ export class ModelOverview extends React.Component<
               />
             </Pivot>
             {!this.state.datasetCohortViewIsVisible && (
-              <Text>
+              <Text className={classNames.descriptionText}>
                 {
                   localization.ModelAssessment.ModelOverview
                     .featureBasedViewDescription
@@ -358,7 +360,7 @@ export class ModelOverview extends React.Component<
                       this.context.baseErrorCohort.cohort.compositeFilters
                         .length >
                       0 && (
-                      <MessageBar>
+                      <MessageBar className={classNames.descriptionText}>
                         {localization.formatString(
                           localization.ModelAssessment.ModelOverview
                             .disaggregatedAnalysisBaseCohortWarning,
