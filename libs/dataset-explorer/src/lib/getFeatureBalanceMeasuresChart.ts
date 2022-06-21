@@ -12,6 +12,9 @@ import { ColorAxisOptions } from "highcharts";
 import _ from "lodash";
 import { getTheme } from "office-ui-fabric-react";
 
+const measureLocalization =
+  localization.ModelAssessment.DataBalance.FeatureBalanceMeasures.Measures;
+
 interface IFeatureBalanceMetadata {
   Description: string;
   KeyName: string;
@@ -19,69 +22,65 @@ interface IFeatureBalanceMetadata {
   Range?: [number, number];
 }
 
-const featLocalization =
-  localization.ModelAssessment.DataBalance.FeatureBalanceMeasures.Measures;
-
-// Map that contains display name -> measure metadata pairs, corresponds to
-// the feature balance measures that can be displayed in the heatmap
+// Maps feature balance measure names to their metadata
 export const FeatureBalanceMeasuresMap = new Map<
   string,
   IFeatureBalanceMetadata
 >([
   [
-    featLocalization.StatisticalParity.Name,
+    measureLocalization.StatisticalParity.Name,
     {
-      Description: featLocalization.StatisticalParity.Description,
+      Description: measureLocalization.StatisticalParity.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("StatisticalParity"),
       Range: [-1, 1]
     }
   ],
   [
-    featLocalization.PointwiseMutualInformation.Name,
+    measureLocalization.PointwiseMutualInformation.Name,
     {
-      Description: featLocalization.PointwiseMutualInformation.Description,
+      Description: measureLocalization.PointwiseMutualInformation.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("PointwiseMutualInfo")
     }
   ],
   [
-    featLocalization.SorensenDiceCoefficient.Name,
+    measureLocalization.SorensenDiceCoefficient.Name,
     {
-      Description: featLocalization.SorensenDiceCoefficient.Description,
+      Description: measureLocalization.SorensenDiceCoefficient.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("SorensonDiceCoeff")
     }
   ],
   [
-    featLocalization.JaccardIndex.Name,
+    measureLocalization.JaccardIndex.Name,
     {
-      Description: featLocalization.JaccardIndex.Description,
+      Description: measureLocalization.JaccardIndex.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("JaccardIndex")
     }
   ],
   [
-    featLocalization.KendallRankCorrelation.Name,
+    measureLocalization.KendallRankCorrelation.Name,
     {
-      Description: featLocalization.KendallRankCorrelation.Description,
+      Description: measureLocalization.KendallRankCorrelation.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("KendallRankCorrelation")
     }
   ],
   [
-    featLocalization.LogLikelihoodRatio.Name,
+    measureLocalization.LogLikelihoodRatio.Name,
     {
-      Description: featLocalization.LogLikelihoodRatio.Description,
+      Description: measureLocalization.LogLikelihoodRatio.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("LogLikelihoodRatio")
     }
   ],
   [
-    featLocalization.TTest.Name,
+    measureLocalization.TTest.Name,
     {
-      Description: featLocalization.TTest.Description,
+      Description: measureLocalization.TTest.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("TTest")
     }
   ],
   [
-    featLocalization.TTestPValue.Name,
+    measureLocalization.TTestPValue.Name,
     {
-      Description: featLocalization.TTestPValue.Description,
+      Description: measureLocalization.TTestPValue.Description,
       KeyName: nameof<IFeatureBalanceMeasure>("TTestPValue")
     }
   ]

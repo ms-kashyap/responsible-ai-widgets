@@ -14,7 +14,7 @@ import {
   YAxisOptions
 } from "highcharts";
 
-const distLocalization =
+const measureLocalization =
   localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Measures;
 
 interface IDistributionBalanceMetadata {
@@ -22,63 +22,64 @@ interface IDistributionBalanceMetadata {
   KeyName: string;
 }
 
+// Maps distribution balance measure names to their metadata
 export const DistributionBalanceMeasuresMap = new Map<
   string,
   IDistributionBalanceMetadata
 >([
   [
-    distLocalization.ChiSquarePValue.Name,
+    measureLocalization.ChiSquarePValue.Name,
     {
-      Description: distLocalization.ChiSquarePValue.Description,
+      Description: measureLocalization.ChiSquarePValue.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("ChiSquarePValue")
     }
   ],
   [
-    distLocalization.ChiSquareStatistic.Name,
+    measureLocalization.ChiSquareStatistic.Name,
     {
-      Description: distLocalization.ChiSquareStatistic.Description,
+      Description: measureLocalization.ChiSquareStatistic.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("ChiSquareStat")
     }
   ],
   [
-    distLocalization.CrossEntropy.Name,
+    measureLocalization.CrossEntropy.Name,
     {
-      Description: distLocalization.CrossEntropy.Description,
+      Description: measureLocalization.CrossEntropy.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("CrossEntropy")
     }
   ],
   [
-    distLocalization.InfiniteNormDistance.Name,
+    measureLocalization.InfiniteNormDistance.Name,
     {
-      Description: distLocalization.InfiniteNormDistance.Description,
+      Description: measureLocalization.InfiniteNormDistance.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("InfiniteNormDist")
     }
   ],
   [
-    distLocalization.JSDistance.Name,
+    measureLocalization.JSDistance.Name,
     {
-      Description: distLocalization.JSDistance.Description,
+      Description: measureLocalization.JSDistance.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("JensenShannonDist")
     }
   ],
   [
-    distLocalization.KLDivergence.Name,
+    measureLocalization.KLDivergence.Name,
     {
-      Description: distLocalization.KLDivergence.Description,
+      Description: measureLocalization.KLDivergence.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("KLDivergence")
     }
   ],
   [
-    distLocalization.TotalVariationDistance.Name,
+    measureLocalization.TotalVariationDistance.Name,
     {
-      Description: distLocalization.TotalVariationDistance.Description,
+      Description: measureLocalization.TotalVariationDistance.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("TotalVarianceDist")
     }
   ],
   [
-    distLocalization.WassersteinDistance.Name,
+    measureLocalization.WassersteinDistance.Name,
     {
-      Description: distLocalization.WassersteinDistance.Description,
+      Description: measureLocalization.WassersteinDistance.Description,
       KeyName: nameof<IDistributionBalanceMeasures>("WassersteinDist")
     }
   ]
@@ -94,9 +95,6 @@ export function getDistributionBalanceMeasuresChart(
     return {};
   }
 
-  const measureLocalization =
-    localization.ModelAssessment.DataBalance.DistributionBalanceMeasures
-      .Measures;
   const chartLocalization =
     localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Chart;
   const infoIcon = "&#9432;";
@@ -126,10 +124,12 @@ export function getDistributionBalanceMeasuresChart(
 
   // Represents axis.left for each subplot, meaning at which point from the left to start the subplot
   let axisLeftStart = 0;
+
+  // Populate the multiple series, x-axes, and y-axes
   [...DistributionBalanceMeasuresMap.entries()].forEach(
     ([measureName, measureInfo], i) => {
       const measureValues = features.map(
-        (f) => distributionBalanceMeasures[f][measureInfo.KeyName]
+        (feature) => distributionBalanceMeasures[feature][measureInfo.KeyName]
       );
 
       // axis.left defines how far from the left to place the axis
@@ -157,9 +157,7 @@ export function getDistributionBalanceMeasuresChart(
         width: hiddenCharts.has(measureName) ? "0%" : `${width - padding}%`
       });
 
-      if (!hiddenCharts.has(measureName)) {
-        axisLeftStart += width;
-      }
+      const isVisible = !hiddenCharts.has(measureName);
 
       multipleSeries.push({
         data: measureValues,
@@ -171,10 +169,14 @@ export function getDistributionBalanceMeasuresChart(
         },
         name: measureName,
         type: "column",
-        visible: !hiddenCharts.has(measureName),
+        visible: isVisible,
         xAxis: i,
         yAxis: i
       });
+
+      if (isVisible) {
+        axisLeftStart += width;
+      }
     }
   );
 
@@ -217,7 +219,7 @@ function showHideSubplot(
   const chartLocalization =
     localization.ModelAssessment.DataBalance.DistributionBalanceMeasures.Chart;
 
-  // If the clicked-on chart was already hidden, that means user clicked to show it so remove it from hidden charts.
+  // If the clicked-on chart was already hidden, that means user clicked to show it, so remove it from hidden charts.
   if (hiddenCharts.has(e.target.name)) {
     hiddenCharts.delete(e.target.name);
   } else {

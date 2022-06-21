@@ -24,9 +24,9 @@ export class DataBalanceTab extends React.Component<IDataBalanceTabProps> {
     defaultModelAssessmentContext;
 
   public render(): React.ReactNode {
-    // If some types of measures are available but others are not (i.e. feature balance measures are not available but
-    // distribution balance measures are), we still display the measures that are available.
-    // We only return if either the measures weren't computed or all measures are missing.
+    // If some types of measures are available but others are not (i.e. feature balance measures are not available
+    // but distribution balance measures are), the measures that are available can still be displayed.
+    // Return if all measures are missing.
     const dataBalanceMeasures = this.context.dataset.data_balance_measures;
     if (
       !dataBalanceMeasures ||
