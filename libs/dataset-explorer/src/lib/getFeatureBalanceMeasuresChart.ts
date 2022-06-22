@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { getTheme } from "@fluentui/react";
 import {
   IHighchartsConfig,
   IFeatureBalanceMeasures,
@@ -10,7 +11,6 @@ import {
 import { localization } from "@responsible-ai/localization";
 import { ColorAxisOptions } from "highcharts";
 import _ from "lodash";
-import { getTheme } from "office-ui-fabric-react";
 
 const measureLocalization =
   localization.ModelAssessment.DataBalance.FeatureBalanceMeasures.Measures;

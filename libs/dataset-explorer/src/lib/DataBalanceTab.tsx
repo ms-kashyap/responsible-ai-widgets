@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Stack } from "@fluentui/react";
 import {
   defaultModelAssessmentContext,
   MissingParametersPlaceholder,
@@ -8,7 +9,6 @@ import {
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
 import _ from "lodash";
-import { Stack } from "office-ui-fabric-react";
 import React from "react";
 
 import { AggregateBalanceMeasuresTable } from "./AggregateBalanceMeasuresTable";

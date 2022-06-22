@@ -2,11 +2,6 @@
 // Licensed under the MIT License.
 
 import {
-  IAggregateBalanceMeasures,
-  LabelWithCallout
-} from "@responsible-ai/core-ui";
-import { localization } from "@responsible-ai/localization";
-import {
   CheckboxVisibility,
   DetailsList,
   DetailsListLayoutMode,
@@ -15,7 +10,12 @@ import {
   SelectionMode,
   Stack,
   Text
-} from "office-ui-fabric-react";
+} from "@fluentui/react";
+import {
+  IAggregateBalanceMeasures,
+  LabelWithCallout
+} from "@responsible-ai/core-ui";
+import { localization } from "@responsible-ai/localization";
 import React from "react";
 
 import { dataBalanceTabStyles } from "./DataBalanceTab.styles";

@@ -28,7 +28,8 @@ import * as React from "react";
 import { AddTabButton } from "../../AddTabButton";
 import {
   isFlightActive,
-  newModelOverviewExperienceFlight
+  newModelOverviewExperienceFlight,
+  dataBalanceExperienceFlight
 } from "../../FeatureFlights";
 import { GlobalTabKeys } from "../../ModelAssessmentEnums";
 import { FeatureImportancesTab } from "../FeatureImportances";
@@ -196,7 +197,12 @@ export class TabsView extends React.PureComponent<
                       {localization.ModelAssessment.ComponentNames.DataExplorer}
                     </Text>
                   </div>
-                  <DataExplorerParentTab />
+                  <DataExplorerParentTab
+                    showDataBalanceExperience={isFlightActive(
+                      dataBalanceExperienceFlight,
+                      this.context.featureFlights
+                    )}
+                  />
                 </>
               )}
               {t.key === GlobalTabKeys.FeatureImportancesTab &&

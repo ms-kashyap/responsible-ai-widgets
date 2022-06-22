@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Dropdown, IDropdownOption, Link, Stack, Text } from "@fluentui/react";
 import {
   HeatmapHighChart,
   IFeatureBalanceMeasures,
@@ -8,13 +9,6 @@ import {
 } from "@responsible-ai/core-ui";
 import { localization } from "@responsible-ai/localization";
 import _ from "lodash";
-import {
-  Dropdown,
-  IDropdownOption,
-  Link,
-  Stack,
-  Text
-} from "office-ui-fabric-react";
 import React from "react";
 
 import { dataBalanceTabStyles } from "./DataBalanceTab.styles";

@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Pivot, PivotItem, Stack } from "@fluentui/react";
 import { localization } from "@responsible-ai/localization";
-import { Pivot, PivotItem, Stack } from "office-ui-fabric-react";
 import React from "react";
 
 import { DataBalanceTab } from "./DataBalanceTab";
 import { dataExplorerParentTabStyles } from "./DataExplorerParentTab.styles";
 import { DatasetExplorerTab } from "./DatasetExplorerTab";
+
+interface IDataExplorerParentTabProps {
+  showDataBalanceExperience: boolean;
+}
 
 interface IDataExplorerParentTabState {
   activeViewOption: DataExplorerParentTabOptions;
@@ -17,8 +21,6 @@ enum DataExplorerParentTabOptions {
   DatasetExplorer = "DatasetExplorer",
   DataBalance = "DataBalance"
 }
-
-export class IDataExplorerParentTabProps {}
 
 export class DataExplorerParentTab extends React.Component<
   IDataExplorerParentTabProps,
@@ -33,6 +35,10 @@ export class DataExplorerParentTab extends React.Component<
 
   public render(): React.ReactNode {
     const styles = dataExplorerParentTabStyles();
+
+    if (!this.props.showDataBalanceExperience) {
+      return <DatasetExplorerTab />;
+    }
 
     return (
       <Stack>
